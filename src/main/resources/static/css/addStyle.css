@@ -1,0 +1,40 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: top;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+}
+
+.container {
+    text-align: center;
+}
+
+form {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin: 10px 0 5px;
+}
+
+input {
+    margin-bottom: 10px;
+    padding: 5px;
+}
+
+#rectangle {
+    width: 50px;
+    height: 50px;
+    background-color: #000;
+    margin: 20px auto 0;
+    transition: all 0.3s ease;
+    display: block;
+    padding-top: 5px;
+}
+
+#addButton {
+    margin-top: 20px;
+}

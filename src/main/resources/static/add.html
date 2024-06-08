@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Rectangle Display</title>
+    <link rel="stylesheet" href="css/addStyle.css">
+	<script src="js/rectDisplayInAdd.js"></script>
+	
+</head>
+<body>
+    <div class="container">
+        <h1>Add a New Rectangle</h1>
+        <form action="/rectangles/add" method="post" id="rectangleForm">
+			<label for="nameInput">Name:</label>
+            <input type="text" id="nameInput" name="nameInput" placeholder="Name">
+
+            <label for="widthInput">Width (px):</label>
+            <input type="number" id="widthInput" name="widthInput" min="0" placeholder="Default: 50">
+
+            <label for="heightInput">Height (px):</label>
+            <input type="number" id="heightInput" name="heightInput" min="0" placeholder="Default: 50">
+
+            <label for="colorInput">Color:</label>
+            <input type="color" id="colorInput" name="colorInput">
+        </form>
+        <div id="rectangle"></div>
+		<div>
+			<input style="margin-top: 15px;" class="btn btn-primary" type="submit" value="Add Rectangle"></input>
+		</div>
+    </div>
+</body>
+</html>
