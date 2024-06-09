@@ -4,30 +4,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dynamic Rectangle Display</title>
-    <link rel="stylesheet" href="css/addStyle.css">
-	<script src="js/rectDisplayInAdd.js"></script>
-	
+    <link rel="stylesheet" href="/css/addStyle.css">
 </head>
 <body>
     <div class="container">
         <h1>Add a New Rectangle</h1>
+		<div id="rectangle"></div>
         <form action="/rectangles/add" method="post" id="rectangleForm">
-			<label for="nameInput">Name:</label>
-            <input type="text" id="nameInput" name="nameInput" placeholder="Name">
+            <label for="nameInput">Name:</label>
+            <input type="text" id="nameInput" name="name" placeholder="Name">
 
             <label for="widthInput">Width (px):</label>
-            <input type="number" id="widthInput" name="widthInput" min="0" placeholder="Default: 50">
+            <input type="number" id="widthInput" name="width" min="0" placeholder="Default: 50">
 
             <label for="heightInput">Height (px):</label>
-            <input type="number" id="heightInput" name="heightInput" min="0" placeholder="Default: 50">
+            <input type="number" id="heightInput" name="height" min="0" placeholder="Default: 50">
 
             <label for="colorInput">Color:</label>
-            <input type="color" id="colorInput" name="colorInput">
+            <input type="color" id="colorInput" name="color">
+			<br>
+            <input style="margin-top: 15px;" class="btn btn-primary" type="submit" value="Add Rectangle">
         </form>
-        <div id="rectangle"></div>
-		<div>
-			<input style="margin-top: 15px;" class="btn btn-primary" type="submit" value="Add Rectangle"></input>
-		</div>
+        <a id="addButton" href="/">
+            <button style="margin-top: 15px;">Return Without Adding</button>
+        </a>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const nameInput = document.getElementById('nameInput');
+            const colorInput = document.getElementById('colorInput');
+            const widthInput = document.getElementById('widthInput');
+            const heightInput = document.getElementById('heightInput');
+            const rectangle = document.getElementById('rectangle');
+
+            function updateRectangle() {
+                rectangle.style.backgroundColor = colorInput.value;
+                rectangle.style.width = widthInput.value + 'px';
+                rectangle.style.height = heightInput.value + 'px';
+                rectangle.innerHTML = nameInput.value;
+            }
+            nameInput.addEventListener('input', updateRectangle);
+            colorInput.addEventListener('input', updateRectangle);
+            widthInput.addEventListener('input', updateRectangle);
+            heightInput.addEventListener('input', updateRectangle);
+        });
+    </script>
 </body>
 </html>

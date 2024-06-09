@@ -5,25 +5,34 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rectangles</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body style = "background: #f0f0f0;">
     <main class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-md-4">
                 <h1>Rectangles</h1>
-                <ul>
-                    <li th:each="rectangle:${rec}">
-                        <span th:text="${rectangle.name}"></span> <br>
-                        <span th:text="${rectangle.width}"></span> <br>
-                        <span th:text="${rectangle.height}"></span>
-                    </li>
-                </ul>
+                <table>
+                    <tr>
+                        <th>Name</th>
+                        <th>Width</th>
+                        <th>Height</th>
+                        <th>Color</th>
+                        <th></th>
+                    </tr>
+                    <tr th:each="rectangle:${rec}">
+                        <th><a th:href="@{/rectangles/{id}(id=${rectangle.pid})}" th:text="${rectangle.name}">&nbsp;</a></th>
+                        <th th:text="${rectangle.width}"></th>
+                        <th th:text="${rectangle.height}"></th>
+                        <th th:text="${rectangle.color}"></th>
+                        <th><a th:href="@{/rectangles/delete/{id}(id=${rectangle.pid})}" th:text="Delete">&nbsp;</a></th>
+                    </tr>
+                </table>
+                <a id="addButton" href="add.html">
+                    <button style="margin-top: 15px;">Add a new Rectangle</button>
+                </a>
             </div>
         </div>
-    </main>
-    <a href="add.html">
-        <button style="margin-top: 15px;">Add a new Rectangle</button>
-    </a>
-    
+    </main>    
 </body>
 </html>

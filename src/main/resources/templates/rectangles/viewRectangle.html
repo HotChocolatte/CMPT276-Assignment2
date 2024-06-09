@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rectangle Details</title>
+    <link rel="stylesheet" href="/css/addStyle.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Rectangle Details</h1>
+        <div id="rectangle" class="rectangle-display" th:style="'width: ' + ${rectangle.width} + 'px; height: ' + ${rectangle.height} + 'px; background-color: ' + ${rectangle.color}"></div>
+        <div class="rectangle-details">
+            <form th:action="@{/rectangles/edit/{id}(id=${rectangle.pid})}" method="post" style="padding-top: 15px;">
+
+                <input type="text" id="nameInput" name="name" th:value="${rectangle.name}" required><br><br>
+                <input type="number" id="widthInput" name="width" min="0" th:value="${rectangle.width}" required><br><br>
+                <input type="number" id="heightInput" name="height" min="0" th:value="${rectangle.height}" required><br><br>
+                <input type="color" id="colorInput" name="color" th:value="${rectangle.color}" required><br><br>
+
+                <button type="submit">Update Rectangle</button>
+            </form>
+            <form th:action="@{/rectangles/delete/{id}(id=${rectangle.pid})}" method="get">
+                <button type="submit">Delete Rectangle</button>
+            </form>
+        </div>
+        <button id="addButton" onclick="window.history.back()">Back to Main</button>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const colorInput = document.getElementById('colorInput');
+            const widthInput = document.getElementById('widthInput');
+            const heightInput = document.getElementById('heightInput');
+            const rectangleDisplay = document.getElementById('rectangle');
+
+            function updateRectangle() {
+                rectangleDisplay.style.backgroundColor = colorInput.value;
+                rectangleDisplay.style.width = widthInput.value + 'px';
+                rectangleDisplay.style.height = heightInput.value + 'px';
+            }
+            
+            colorInput.addEventListener('input', updateRectangle);
+            widthInput.addEventListener('input', updateRectangle);
+            heightInput.addEventListener('input', updateRectangle);
+        });
+    </script>
+</body>
+</html>
