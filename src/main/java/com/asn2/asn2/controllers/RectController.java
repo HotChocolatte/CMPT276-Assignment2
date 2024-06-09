@@ -1,8 +1,6 @@
 package com.asn2.asn2.controllers;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,53 +39,37 @@ public class RectController {
             @RequestParam(required = false) String height,
             @RequestParam(required = false) String color,
             HttpServletResponse response) {
-        try {
-            // Log raw parameter values for debugging
-            System.out.println("Raw input values - Name: " + name + ", Width: " + width + ", Height: " + height + ", Color: " + color);
 
-            // Use default values if parameters are missing
-            String newName = (name != null && !name.isEmpty()) ? name : "defaultName";
-            int newWidth = (width != null && !width.isEmpty()) ? Integer.parseInt(width) : 50;
-            int newHeight = (height != null && !height.isEmpty()) ? Integer.parseInt(height) : 50;
-            String newColor = (color != null && !color.isEmpty()) ? color : "#000000";
+        // Sets all attributes. Uses default values if parameters are missing.
+        String newName = (name != null && !name.isEmpty()) ? name : "defaultName";
+        int newWidth = (width != null && !width.isEmpty()) ? Integer.parseInt(width) : 50;
+        int newHeight = (height != null && !height.isEmpty()) ? Integer.parseInt(height) : 50;
+        String newColor = (color != null && !color.isEmpty()) ? color : "#000000";
 
-            // Log parsed values for debugging
-            System.out.println("Parsed values - Name: " + newName + ", Width: " + newWidth + ", Height: " + newHeight + ", Color: " + newColor);
+        Rectangle newRectangle = new Rectangle(newName, newWidth, newHeight, newColor);
+        rectRepo.save(newRectangle);
 
-            Rectangle newRectangle = new Rectangle(newName, newWidth, newHeight, newColor);
-            rectRepo.save(newRectangle);
-
-            response.setStatus(201);
-            return "redirect:/";
-        } catch (Exception e) {
-            e.printStackTrace();
-            response.setStatus(400);
-            return "rectangles/error";
-        }
+        response.setStatus(201);
+        return "redirect:/";
     }
 
     @GetMapping("/rectangles/{id}")
     public String getRectangleById(@PathVariable("id") int id, Model model) {
+
+        // Finds rectangle by id in order to display it.
         Optional<Rectangle> rectangle = rectRepo.findById(id);
-        if (rectangle.isPresent()) {
-            model.addAttribute("rectangle", rectangle.get());
-            return "rectangles/viewRectangle";
-        } else {
-            return "rectangles/error";
-        }
+        model.addAttribute("rectangle", rectangle.get());
+        return "rectangles/viewRectangle";
     }
 
     @GetMapping("/rectangles/delete/{id}")
     public String deleteRectangle(@PathVariable("id") int id, Model model) {
+
+        // Removes rectangle from database.
         Optional<Rectangle> rectangle = rectRepo.findById(id);
-        if (rectangle.isPresent()) {
-            rectRepo.delete(rectangle.get());
-            model.addAttribute("message", "Rectangle deleted successfully");
-            return "redirect:/";
-        } else {
-            model.addAttribute("message", "Rectangle not found");
-            return "rectangles/error";
-        }
+        rectRepo.delete(rectangle.get());
+        model.addAttribute("message", "Rectangle deleted successfully");
+        return "redirect:/";
     }
 
     @PostMapping("/rectangles/edit/{id}")
@@ -98,24 +80,19 @@ public class RectController {
             @RequestParam(required = false) String height,
             @RequestParam(required = false) String color,
             HttpServletResponse response) {
-        try {
-            Optional<Rectangle> optionalRectangle = rectRepo.findById(id);
-            if (optionalRectangle.isPresent()) {
-                Rectangle rectangle = optionalRectangle.get();
-                rectangle.setName((name != null && !name.isEmpty()) ? name : rectangle.getName());
-                rectangle.setWidth((width != null && !width.isEmpty()) ? Integer.parseInt(width) : rectangle.getWidth());
-                rectangle.setHeight((height != null && !height.isEmpty()) ? Integer.parseInt(height) : rectangle.getHeight());
-                rectangle.setColor((color != null && !color.isEmpty()) ? color : rectangle.getColor());
 
-                rectRepo.save(rectangle);
-                return "redirect:/";
-            } else {
-                return "rectangles/error";
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "rectangles/error";
-        }
+        
+        Optional<Rectangle> optionalRectangle = rectRepo.findById(id);
+        Rectangle rectangle = optionalRectangle.get();
+
+        // Sets all attributes. Uses ORIGINAL values if parameters are missing.
+        rectangle.setName((name != null && !name.isEmpty()) ? name : rectangle.getName());
+        rectangle.setWidth((width != null && !width.isEmpty()) ? Integer.parseInt(width) : rectangle.getWidth());
+        rectangle.setHeight((height != null && !height.isEmpty()) ? Integer.parseInt(height) : rectangle.getHeight());
+        rectangle.setColor((color != null && !color.isEmpty()) ? color : rectangle.getColor());
+
+        rectRepo.save(rectangle);
+        return "redirect:/";
     }
     
 }
